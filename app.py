@@ -35,11 +35,15 @@ def todos():
             if match:
                 imagen = match.group(1)
 
+        print(url)
+
         resultados.append({
             "titulo": titulo,
             "link": link,
             "imagen": imagen
         })
+    
+    print(res)
 
     return jsonify({
         "pagina": page,
@@ -79,11 +83,15 @@ def buscar():
             if match:
                 imagen = match.group(1)
 
+        print(url)
+
         resultados.append({
             "titulo": titulo,
             "link": link,
             "imagen": imagen
         })
+
+    print(res)
 
     return jsonify({
         "query": query,
