@@ -5,11 +5,6 @@ import re
 
 app = Flask(__name__)
 
-from flask import Flask, jsonify, request
-import requests
-from bs4 import BeautifulSoup
-import re
-
 @app.route("/todos")
 def todos():
     page = request.args.get("page", "1")
@@ -51,7 +46,6 @@ def todos():
         "mangas": resultados
     })
 
-
 @app.route("/buscar")
 def buscar():
     query = request.args.get("q", "")
@@ -71,29 +65,32 @@ def buscar():
         thumbnail_div = card.select_one("div.thumbnail")
         style_tag = thumbnail_div.select_one("style") if thumbnail_div else None
 
+        # Si falta alguno de los elementos necesarios, salteamos
         if not titulo_tag or not link_tag:
             continue
 
         titulo = titulo_tag.text.strip()
         link = link_tag["href"].strip()
-        
+
+        # Extraer imagen desde el <style>
         imagen = None
-        if style_tag:
+        if style_tag and style_tag.string:
             match = re.search(r"url\('([^']+)'\)", style_tag.string)
             if match:
                 imagen = match.group(1)
 
-    resultados.append({
-        "titulo": titulo,
-        "link": link,
-        "imagen": imagen
-    })
+        resultados.append({
+            "titulo": titulo,
+            "link": link,
+            "imagen": imagen
+        })
 
     return jsonify({
         "query": query,
         "pagina": page,
         "resultados": resultados
     })
+
 
 if __name__ == "__main__":
     app.run()
