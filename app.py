@@ -10,7 +10,9 @@ def todos():
     page = request.args.get("page", "1")
     url = f"https://lectortmo.com/library?_pg=1&page={page}"
     headers = {
-        "User-Agent": "Mozilla/5.0"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+            "Referer": "https://lectortmo.com",
+            "Accept-Language": "es-ES,es;q=0.9"
     }
     res = requests.get(url, headers=headers)
     soup = BeautifulSoup(res.text, "html.parser")
@@ -57,7 +59,9 @@ def buscar():
 
     url = f"https://lectortmo.com/library?title={query.replace(' ', '+')}&_pg=1&page={page}"
     headers = {
-        "User-Agent": "Mozilla/5.0"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+            "Referer": "https://lectortmo.com",
+            "Accept-Language": "es-ES,es;q=0.9"
     }
     res = requests.get(url, headers=headers)
     soup = BeautifulSoup(res.text, "html.parser")
